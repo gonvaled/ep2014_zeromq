@@ -1,7 +1,15 @@
 # coding=utf-8
+
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import argparse
 import time
 import zmq
+
+
+from utils import get_local_ip
 
 context = zmq.Context()
 
@@ -14,7 +22,7 @@ args = parser.parse_args()
 
 s.connect(args.connect_address)
 while 1:
-    msg = "HELLOFROM {} {}".format(get_local_ip(), '5555')
+    msg = "HELLOFROM {}:{}".format(get_local_ip(), '5555')
     print msg
     s.send(msg)
     print s.recv()
