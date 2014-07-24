@@ -15,8 +15,14 @@ socket = context.socket(zmq.ROUTER)
 
 def broker(stream, message):
     print message
-    PEERS.add(message[1])
-    message[1] = ' '.join(PEERS)
+    msg = message[1].split()
+    if msg[0] == 'REGISTER':
+        PEERS.add(msg[1])
+        message[1] = ' '.join(PEERS)
+    elif msg[0] == 'LIST':
+        message[1] = ' '.join(PEERS)
+    else:
+        message[1] = 'ERROR'
     stream.send_multipart(message)
 
 
