@@ -1,18 +1,7 @@
 #!/usr/bin/env python
+
 import argparse
 import zmq
-import socket as so
-
-
-def get_local_ip():
-    """
-    Retrieve the clients local ip address and return it as a string
-
-    :returns IpAddress as String
-    """
-    ip = so.gethostbyname(so.gethostname())
-    return ip
-
 
 context = zmq.Context()
 
@@ -20,10 +9,16 @@ socket = context.socket(zmq.DEALER)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--connect-address', default='tcp://127.0.0.1:5555')
+parser.add_argument('-p', '--port', default=4444)
 
 args = parser.parse_args()
 
+import socket as socket2
+myip = socket2.gethostbyname(socket2.gethostname())
+
 socket.connect(args.connect_address)
-for i in range(10):
-    socket.send(str(i))
-    print(socket.recv())
+
+# First just register to the server
+command = 'HELLO {} {}'.format(myip, args.port)
+socket.send_multipart([myip, args.port])
+print socket.recv_json()
