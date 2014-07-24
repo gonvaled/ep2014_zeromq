@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # coding=utf-8
 import argparse
 import zmq
@@ -15,8 +14,6 @@ socket = context.socket(zmq.ROUTER)
 
 
 def broker(stream, message):
-    # raise Exception(message)
-    # HELLOFROM <my ip address> <port number>
     print message
     PEERS.add(message[1])
     message[1] = ' '.join(PEERS)
