@@ -26,6 +26,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-b', '--bind-address', default='tcp://127.0.0.1:5555')
 args = parser.parse_args()
 
+print 'Binding broker to {}'.format(args.bind_address)
 
 socket.bind(args.bind_address)
 io_loop.start()

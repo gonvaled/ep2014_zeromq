@@ -25,7 +25,7 @@ socket.connect(args.connect_address)
 
 while 1:
     msg = "{}:{}".format(get_local_ip(), '5555')
-    print 'Sending address to the dealer', msg
+    print 'Sending address {} to dealer {}'.format(msg, args.connect_address)
     socket.send(msg)
     print socket.recv()
     time.sleep(1)
