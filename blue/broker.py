@@ -18,9 +18,8 @@ def broker(stream, message):
     # raise Exception(message)
     # HELLOFROM <my ip address> <port number>
     print message
-    msg = message[0].split()
-    PEERS.add(msg[0])
-    message[0] = ' '.join(PEERS)
+    PEERS.add(message[1])
+    message[1] = ' '.join(PEERS)
     stream.send_multipart(message)
 
 
