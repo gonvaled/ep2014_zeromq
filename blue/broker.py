@@ -1,7 +1,5 @@
+# coding=utf-8
 import argparse
-import json
-import time
-
 import zmq
 from zmq.eventloop import ioloop, zmqstream
 
@@ -26,11 +24,10 @@ def echo(stream, message):
     msg = message[1].split()
 
     if msg[0] == 'HELLOFROM':
-        print msg[1:3]
-        PEERS.add(tuple(msg[1:3]))
+        PEERS.add(msg[1])
 
     elif msg[0] == 'WHO':
-        reply = json.dumps(list(PEERS))
+        reply = ' '.join(PEERS)
 
     message[1] = reply
     stream.send_multipart(message)
