@@ -18,14 +18,22 @@ socket = context.socket(zmq.DEALER)
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-c', '--connect-address', default='tcp://127.0.0.1:5555')
+parser.add_argument('-H', '--hider', default=False, action='store_true')
+parser.add_argument('-C', '--city',  default='Barcelona')
 
 args = parser.parse_args()
 
 socket.connect(args.connect_address)
 
+hider = args.hider
+city = args.hider
+myip = get_local_ip()
+address = args.connect_address
+
 while 1:
-    msg = "{}:{}".format(get_local_ip(), '5555')
-    print 'Sending address {} to dealer {}'.format(msg, args.connect_address)
-    socket.send(msg)
+    if hider : command = "REGISTER {}:{}".format(myip, '5555')
+    else     : command = "LIST"
+    print 'Sending command "{}" to dealer {}'.format(command, address)
+    socket.send(command)
     print socket.recv()
     time.sleep(1)
